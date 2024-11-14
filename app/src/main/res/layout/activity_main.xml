@@ -2,8 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#121212"
-    android:padding="16dp">
+    android:background="#121212">
 
     <TextView
         android:id="@+id/titleWarnings"
@@ -12,23 +11,17 @@
         android:text="Avisos"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
-        android:fontFamily="sans-serif-medium" />
+        android:fontFamily="sans-serif-medium"
+        android:padding="16dp"/>
 
-    <ImageView
-        android:id="@+id/profileIcon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/rounded_background"
-        android:contentDescription="Profile Icon"
-        android:src="@drawable/ic_person" />
 
     <ScrollView
         android:id="@+id/warningsList"
         android:layout_below="@id/titleWarnings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        android:padding="16dp">
 
         <!-- Warning items here, repeatable container -->
         <LinearLayout
@@ -58,16 +51,15 @@
         android:text="Mapa"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
-        android:fontFamily="sans-serif-medium" />
+        android:fontFamily="sans-serif-medium"
+        android:padding="16dp"/>
 
-    <ImageView
-        android:id="@+id/mapImage"
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="250dp"
         android:layout_below="@id/mapTitle"
-        android:layout_marginTop="8dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/map_placeholder" />
+        android:padding="16dp"/>
 
     <!-- Bottom Navigation Bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
