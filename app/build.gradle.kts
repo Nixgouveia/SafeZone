@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin") version "2.0.0"
 }
 
 android {
@@ -37,9 +38,12 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.google.maps)
+    implementation(libs.converter.gson)
+    implementation(libs.retrofit)
     implementation(libs.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.lifecycle.livedata.ktx)
+    androidTestImplementation(libs.lifecycle.viewmodel.ktx)
 
 }

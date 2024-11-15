@@ -8,6 +8,10 @@ material = "1.12.0"
 activity = "1.9.2"
 constraintlayout = "2.1.4"
 googleMaps = "18.0.2"
+converterjson = "2.9.0"
+retrofit = "2.9.0"
+lifecyclelivedata = "2.5.1"
+lifecycleviewmodel = "2.5.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -18,6 +22,10 @@ material = { group = "com.google.android.material", name = "material", version.r
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 google-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "googleMaps" }
+converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "converterjson" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecyclelivedata" }
+lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleviewmodel" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
