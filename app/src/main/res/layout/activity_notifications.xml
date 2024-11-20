@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="#333333"
+        android:padding="10dp"
+        android:weightSum="3">
+
+        <!-- Botão Home -->
+        <ImageButton
+            android:id="@+id/button_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_home"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="Home"
+            android:tint="#FFFFFF"
+            android:scaleType="fitCenter"/>
+
+        <!-- Botão Notificações -->
+        <ImageButton
+            android:id="@+id/button_notifications"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_notifications"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="Notifications"
+            android:tint="#FFFFFF"
+            android:scaleType="fitCenter"/>
+
+        <!-- Botão Configurações -->
+        <ImageButton
+            android:id="@+id/button_settings"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_settings"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="Settings"
+            android:tint="#FFFFFF"
+            android:scaleType="fitCenter"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,5 +1,6 @@
 package com.example.tc_projeto;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -18,6 +19,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Initialize the MapView
         mapView.getMapAsync(this);
         MapsInitializer.initialize(this);
+
     }
 
     @Override

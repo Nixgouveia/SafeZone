@@ -1,56 +1,171 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#121212">
 
-    <TextView
-        android:id="@+id/titleWarnings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Avisos"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:fontFamily="sans-serif-medium"
-        android:padding="16dp"/>
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/warningsRecyclerView"
-        android:layout_below="@id/titleWarnings"
+    <!-- ScrollView para permitir rolagem -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:padding="16dp"/>
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
+        <!-- Conteúdo dentro do ScrollView -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="70dp"> <!-- Deixar espaço para a barra de navegação -->
 
-    <TextView
-        android:id="@+id/mapTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/warningsRecyclerView"
-        android:layout_marginTop="16dp"
-        android:text="Mapa"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:fontFamily="sans-serif-medium"
-        android:padding="16dp"/>
+            <!-- Título dos avisos -->
+            <TextView
+                android:id="@+id/titleWarnings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Avisos"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-medium"
+                android:padding="16dp" />
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
+            <!-- RecyclerView para avisos -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/warningsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:padding="16dp" />
+
+            <!-- Título do mapa -->
+            <TextView
+                android:id="@+id/mapTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mapa"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-medium"
+                android:padding="16dp" />
+
+            <!-- Mapa -->
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:padding="16dp" />
+
+            <!-- Guias de Ação -->
+            <TextView
+                android:id="@+id/actionGuidesTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guias de Ação"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-medium"
+                android:padding="16dp" />
+
+            <!-- Layout de cada Guia de Ação -->
+            <LinearLayout
+                android:id="@+id/guide1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/rounded_background"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Guia de Incêndio"
+                    android:textSize="20sp"
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="sans-serif-medium" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Chame Emergência: Ligue para o número 112 e informe a localização."
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/guide2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/rounded_background"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Guia de Evacuação"
+                    android:textSize="20sp"
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="sans-serif-medium" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Siga as rotas de evacuação designadas e evite áreas perigosas."
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Barra de navegação inferior -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_below="@id/mapTitle"
-        android:padding="16dp"/>
-
-    <!-- Bottom Navigation Bar -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:background="#333333"
-        app:itemIconTint="#FFFFFF"
-        app:itemTextColor="#FFFFFF"
-        app:menu="@menu/bottom_nav_menu" />
+        android:padding="10dp"
+        android:weightSum="3">
+
+        <!-- Botão Home -->
+        <ImageButton
+            android:id="@+id/button_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_home"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="Home"
+            android:tint="#FFFFFF"
+            android:scaleType="fitCenter"/>
+
+        <!-- Botão Notificações -->
+        <ImageButton
+            android:id="@+id/button_notifications"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_notifications"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="Notifications"
+            android:tint="#FFFFFF"
+            android:scaleType="fitCenter"/>
+
+        <!-- Botão Configurações -->
+        <ImageButton
+            android:id="@+id/button_settings"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_settings"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="Settings"
+            android:tint="#FFFFFF"
+            android:scaleType="fitCenter"/>
+
+    </LinearLayout>
 
 </RelativeLayout>
+
