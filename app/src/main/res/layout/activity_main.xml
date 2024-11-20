@@ -122,48 +122,105 @@
     <!-- Barra de navegação inferior -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:background="#333333"
         android:padding="10dp"
         android:weightSum="3">
 
-        <!-- Botão Home -->
-        <ImageButton
-            android:id="@+id/button_home"
+        <!-- Botão Home com Label -->
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_home"
-            android:background="?android:attr/selectableItemBackground"
-            android:contentDescription="Home"
-            android:tint="#FFFFFF"
-            android:scaleType="fitCenter"/>
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="5dp">
 
-        <!-- Botão Notificações -->
-        <ImageButton
-            android:id="@+id/button_notifications"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_notifications"
-            android:background="?android:attr/selectableItemBackground"
-            android:contentDescription="Notifications"
-            android:tint="#FFFFFF"
-            android:scaleType="fitCenter"/>
+            <ImageButton
+                android:id="@+id/button_home"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_home"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="Home"
+                android:tint="#FFFFFF"
+                android:scaleType="fitCenter"/>
 
-        <!-- Botão Configurações -->
-        <ImageButton
-            android:id="@+id/button_settings"
+            <TextView
+                android:id="@+id/text_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+
+        <!-- Botão Notificações com Label -->
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_settings"
-            android:background="?android:attr/selectableItemBackground"
-            android:contentDescription="Settings"
-            android:tint="#FFFFFF"
-            android:scaleType="fitCenter"/>
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="5dp">
+
+            <ImageButton
+                android:id="@+id/button_notifications"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_notifications"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="Notifications"
+                android:tint="#FFFFFF"
+                android:scaleType="fitCenter"/>
+
+            <TextView
+                android:id="@+id/text_notifications"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notifications"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+
+        <!-- Botão Configurações com Label -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="5dp">
+
+            <ImageButton
+                android:id="@+id/button_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_settings"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="Settings"
+                android:tint="#FFFFFF"
+                android:scaleType="fitCenter"/>
+
+            <TextView
+                android:id="@+id/text_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
 
     </LinearLayout>
 
