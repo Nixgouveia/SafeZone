@@ -21,11 +21,10 @@ public class NotificationsActivity extends AppCompatActivity {
         ImageButton notificationsButton = findViewById(R.id.button_notifications);
         ImageButton settingsButton = findViewById(R.id.button_settings);
 
-        // Set listeners para cada botão
+        // Barra de navegação
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Intent para a Activity Home
                 Intent intent = new Intent(NotificationsActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -34,7 +33,6 @@ public class NotificationsActivity extends AppCompatActivity {
         notificationsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Intent para a Activity Notifications
                 Intent intent = new Intent(NotificationsActivity.this, NotificationsActivity.class);
                 startActivity(intent);
             }
@@ -43,7 +41,6 @@ public class NotificationsActivity extends AppCompatActivity {
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Intent para a Activity Settings
                 Intent intent = new Intent(NotificationsActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
