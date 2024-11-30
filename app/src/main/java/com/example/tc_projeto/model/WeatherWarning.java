@@ -7,6 +7,8 @@ public class WeatherWarning {
     private String startTime;
     private String awarenessLevelID;
     private String endTime;
+    private String latitude; // Adicionado
+    private String longitude; // Adicionado
 
     // Getters and Setters
     public String getText() { return text; }
@@ -26,15 +28,10 @@ public class WeatherWarning {
 
     public String getEndTime() { return endTime; }
     public void setEndTime(String endTime) { this.endTime = endTime; }
+
+    public String getLatitude() { return latitude; } // Adicionado
+    public void setLatitude(String latitude) { this.latitude = latitude; } // Adicionado
+
+    public String getLongitude() { return longitude; } // Adicionado
+    public void setLongitude(String longitude) { this.longitude = longitude; } // Adicionado
 }
-
-
-
-
-
-
-
-
-
-
-

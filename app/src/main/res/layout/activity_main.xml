@@ -6,6 +6,7 @@
 
     <!-- ScrollView para permitir rolagem -->
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -49,6 +50,7 @@
             <!-- Mapa -->
             <com.google.android.gms.maps.MapView
                 android:id="@+id/mapView"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:padding="16dp" />
