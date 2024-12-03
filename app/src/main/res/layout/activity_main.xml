@@ -33,7 +33,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/warningsRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="395dp"
                 android:padding="16dp" />
 
             <!-- Título do mapa -->

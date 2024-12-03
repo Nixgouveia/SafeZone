@@ -1,14 +1,18 @@
 package com.example.tc_projeto;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,10 +34,11 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -41,16 +46,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final double CURRENT_LATITUDE = 40.2860;
     private static final double CURRENT_LONGITUDE = -7.5033;
     private static final double RADIUS_KM = 1000000.0;
+    private static final int zoom = 12;
     private MapView mapView;
     private GoogleMap googleMap;
     private WeatherWarningViewModel viewModel;
     private WarningAdapter adapter;
     private FusedLocationProviderClient fusedLocationClient;
+    private String currentRegion;
+    private TextView debugText;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        debugText = findViewById(R.id.mapTitle);
 
         RecyclerView recyclerView = findViewById(R.id.warningsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -60,14 +71,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         viewModel = new ViewModelProvider(this).get(WeatherWarningViewModel.class);
         viewModel.getWarnings().observe(this, warnings -> {
-            if (warnings != null) {
-                for (WeatherWarning warning : warnings) {
-                    Log.d("Warning", "Tipo: " + warning.getAwarenessTypeName());
-                }
-                adapter.updateWarnings(warnings);
-                updateMapWithWarnings(warnings);
+            if (warnings != null && currentRegion != null) {
+                List<WeatherWarning> filteredWarnings = filterWarningsByRegion(warnings, currentRegion);
+                adapter.updateWarnings(filteredWarnings);
+                updateMapWithWarnings(filteredWarnings);
             } else {
-                Log.e("MainActivity", "Nenhum aviso disponível");
+                Log.e("MainActivity", "Nenhum aviso disponível ou região não definida");
             }
         });
 
@@ -75,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
         MapsInitializer.initialize(this);
-
 
         // Desativar rolagem do ScrollView ao interagir com o MapView
         ScrollView scrollView = findViewById(R.id.scrollView);
@@ -133,27 +141,89 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    private void getLastKnownLocation() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                if (googleMap != null) {
-                                    updateMapLocation();
-                                }
-                            }
-                        }
-                    });
+    private void getLastKnownLocation() { /*MUDAR AQUI DEPOIS*/
+        Location location = new Location("");
+        location.setLatitude(CURRENT_LATITUDE);
+        location.setLongitude(CURRENT_LONGITUDE);
+        determineRegionFromLocation(location);
+    }
+
+    private void determineRegionFromLocation(Location location) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address address = addresses.get(0);
+                currentRegion = address.getAdminArea(); // Use the appropriate method to get the region
+                currentRegion = getDistrictAbbreviation(currentRegion);
+                Log.d("MainActivity", "Região atual: " + currentRegion);
+                /*debugText.setText(currentRegion);*/
+
+                // Trigger the observer to update the RecyclerView with the new region
+                viewModel.getWarnings().observe(this, warnings -> {
+                    if (warnings != null && currentRegion != null) {
+                        List<WeatherWarning> filteredWarnings = filterWarningsByRegion(warnings, currentRegion);
+                        adapter.updateWarnings(filteredWarnings);
+                        updateMapWithWarnings(filteredWarnings);
+                    } else {
+                        Log.e("MainActivity", "Nenhum aviso disponível ou região não definida");
+                    }
+                });
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
+
+    public String getDistrictAbbreviation(String dist) {
+        switch (dist) {
+            case "Aveiro":
+                return "AVR";
+            case "Beja":
+                return "BEJ";
+            case "Braga":
+                return "BRA";
+            case "Bragança":
+                return "BGC";
+            case "Castelo Branco":
+                return "CBR";
+            case "Coimbra":
+                return "CBR";
+            case "Évora":
+                return "EVR";
+            case "Faro":
+                return "FAR";
+            case "Guarda":
+                return "GUA";
+            case "Leiria":
+                return "LEI";
+            case "Lisboa":
+                return "LIS";
+            case "Portalegre":
+                return "PTG";
+            case "Porto":
+                return "PRT";
+            case "Santarém":
+                return "STM";
+            case "Setúbal":
+                return "STB";
+            case "Viana do Castelo":
+                return "VCT";
+            case "Vila Real":
+                return "VRL";
+            case "Viseu":
+                return "VSE";
+            default:
+                return "Invalid District";
+        }
+    }
+
 
     private void updateMapLocation() {
         LatLng currentLocation = new LatLng(CURRENT_LATITUDE, CURRENT_LONGITUDE);
         googleMap.clear();
         googleMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, zoom));
     }
 
     private void updateMapWithWarnings(List<WeatherWarning> warnings) {
@@ -178,6 +248,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         float[] results = new float[1];
         Location.distanceBetween(lat1, lon1, lat2, lon2, results);
         return results[0] / 1000 <= radiusKm;
+    }
+
+    private List<WeatherWarning> filterWarningsByRegion(List<WeatherWarning> warnings, String region) {
+        List<WeatherWarning> filteredWarnings = new ArrayList<>();
+        for (WeatherWarning warning : warnings) {
+            if (region.equals(warning.getIdAreaAviso())) {
+                filteredWarnings.add(warning);
+            }
+        }
+        return filteredWarnings;
     }
 
     @Override
