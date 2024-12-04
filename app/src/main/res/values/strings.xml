@@ -1,4 +1,26 @@
 <resources>
     <string name="app_name">TC_Projeto</string>
     <string name="google_maps_api_key">AIzaSyCyexIc7mxdzwsWb0IWnyvTewD65Iv6qvg</string>
+    <string name="Spinner">Meu Spinner</string>
+    <string-array name="spinner_items">
+        <item>Aveiro</item>
+        <item>Beja</item>
+        <item>Braga</item>
+        <item>Bragança</item>
+        <item>Castelo Branco</item>
+        <item>Coimbra</item>
+        <item>Évora</item>
+        <item>Faro</item>
+        <item>Guarda</item>
+        <item>Leiria</item>
+        <item>Lisboa</item>
+        <item>Portalegre</item>
+        <item>Porto</item>
+        <item>Santarém</item>
+        <item>Setúbal</item>
+        <item>Viana do Castelo</item>
+        <item>Vila Real</item>
+        <item>Viseu</item>
+    </string-array>
+
 </resources>
