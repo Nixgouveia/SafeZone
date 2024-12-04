@@ -27,11 +27,11 @@ public class WarningAdapter extends RecyclerView.Adapter<WarningAdapter.WarningV
     @Override
     public void onBindViewHolder(@NonNull WarningViewHolder holder, int position) {
         WeatherWarning warning = warningList.get(position);
-        holder.type.setText(warning.getAwarenessTypeName());
-        holder.level.setText(warning.getAwarenessLevelID());
-        holder.regiao.setText(warning.getIdAreaAviso());
-        holder.startTime.setText(warning.getStartTime());
-        holder.endTime.setText(warning.getEndTime());
+        holder.type.setText("Aviso de " + warning.getAwarenessTypeName());
+        holder.level.setText("Risco " + warning.getAwarenessLevelID());
+        holder.regiao.setText("Para " + setDistrict(warning.getIdAreaAviso()));
+        holder.startTime.setText("Início: " + warning.getStartTime());
+        holder.endTime.setText("Fim: " + warning.getEndTime());
     }
 
     @Override
@@ -58,6 +58,67 @@ public class WarningAdapter extends RecyclerView.Adapter<WarningAdapter.WarningV
             endTime = itemView.findViewById(R.id.text_end_time);
         }
     }
+
+    public String setDistrict(String reg) {
+        if (reg.equals("BGC")) {
+            return "Bragança";
+        }
+        if (reg.equals("AVR")) {
+            return "Aveiro";
+        }
+        if (reg.equals("BEJ")) {
+            return "Beja";
+        }
+        if (reg.equals("BRA")) {
+            return "Braga";
+        }
+        if (reg.equals("CBR")) {
+            return "Castelo Branco";
+        }
+        if (reg.equals("COI")) {
+            return "Coimbra";
+        }
+        if (reg.equals("EVR")) {
+            return "Évora";
+        }
+        if (reg.equals("FAR")) {
+            return "Faro";
+        }
+        if (reg.equals("GUA")) {
+            return "Guarda";
+        }
+        if (reg.equals("LEI")) {
+            return "Leiria";
+        }
+        if (reg.equals("LIS")) {
+            return "Lisboa";
+        }
+        if (reg.equals("PTG")) {
+            return "Portalegre";
+        }
+        if (reg.equals("PRT")) {
+            return "Porto";
+        }
+        if (reg.equals("STM")) {
+            return "Santarém";
+        }
+        if (reg.equals("STB")) {
+            return "Setúbal";
+        }
+        if (reg.equals("VCT")) {
+            return "Viana do Castelo";
+        }
+        if (reg.equals("VRL")) {
+            return "Vila Real";
+        }
+        if (reg.equals("VSE")) {
+            return "Viseu";
+        }
+        // Caso o valor de 'reg' não seja encontrado, retorna "Desconhecido"
+        return "Desconhecido";
+    }
+
+
 }
 
 
