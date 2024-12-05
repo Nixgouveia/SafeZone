@@ -252,8 +252,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private List<WeatherWarning> filterWarningsByRegion(List<WeatherWarning> warnings, String region) {
         List<WeatherWarning> filteredWarnings = new ArrayList<>();
+        String tipo="green";
         for (WeatherWarning warning : warnings) {
-            if (region.equals(warning.getIdAreaAviso())) {
+            if (!tipo.equals(warning.getAwarenessLevelID())) {
                 filteredWarnings.add(warning);
             }
         }
