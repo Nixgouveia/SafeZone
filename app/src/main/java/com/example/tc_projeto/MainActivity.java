@@ -10,7 +10,10 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -21,6 +24,9 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import com.example.tc_projeto.Adapter.WarningAdapter;
 import com.example.tc_projeto.ViewModel.WeatherWarningViewModel;
@@ -39,6 +45,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -60,6 +67,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Agendar o WorkManager
+        WorkRequest weatherWarningWorkRequest =
+                new PeriodicWorkRequest.Builder(WeatherWarningWorker.class, 15, TimeUnit.MINUTES)
+                        .build();
+
+        WorkManager.getInstance(this).enqueue(weatherWarningWorkRequest);
 
         debugText = findViewById(R.id.mapTitle);
 
@@ -127,6 +141,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else {
             getLastKnownLocation();
         }
+
+        // Configuração dos acordeões
+        setupAccordion(R.id.header_fire, R.id.content_fire, R.id.indicator_fire);
+        setupAccordion(R.id.header_evacuation, R.id.content_evacuation, R.id.indicator_evacuation);
+        setupAccordion(R.id.header_flood, R.id.content_flood, R.id.indicator_flood);
+    }
+
+    private void setupAccordion(int headerId, int contentId, int indicatorId) {
+        LinearLayout header = findViewById(headerId);
+        LinearLayout content = findViewById(contentId);
+        ImageView indicator = findViewById(indicatorId);
+
+        header.setOnClickListener(v -> {
+            if (content.getVisibility() == View.GONE) {
+                content.setVisibility(View.VISIBLE);
+                indicator.setImageResource(android.R.drawable.arrow_up_float);
+            } else {
+                content.setVisibility(View.GONE);
+                indicator.setImageResource(android.R.drawable.arrow_down_float);
+            }
+        });
     }
 
     @Override
@@ -175,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+
     public String getDistrictAbbreviation(String dist) {
         switch (dist) {
             case "Aveiro":
@@ -217,7 +253,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return "Invalid District";
         }
     }
-
 
     private void updateMapLocation() {
         LatLng currentLocation = new LatLng(CURRENT_LATITUDE, CURRENT_LONGITUDE);

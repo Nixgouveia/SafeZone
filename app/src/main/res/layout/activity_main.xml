@@ -25,7 +25,8 @@
                 android:layout_height="wrap_content"
                 android:text="Avisos"
                 android:textColor="#FFFFFF"
-                android:textSize="24sp"
+                android:textSize="38sp"
+                android:textStyle="bold"
                 android:fontFamily="sans-serif-medium"
                 android:padding="16dp" />
 
@@ -33,7 +34,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/warningsRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="395dp"
+                android:layout_height="300dp"
                 android:padding="16dp" />
 
             <!-- Título do mapa -->
@@ -43,17 +44,25 @@
                 android:layout_height="wrap_content"
                 android:text="Mapa"
                 android:textColor="#FFFFFF"
-                android:textSize="20sp"
+                android:textSize="38sp"
+                android:textStyle="bold"
                 android:fontFamily="sans-serif-medium"
                 android:padding="16dp" />
 
             <!-- Mapa -->
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/mapView"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:padding="16dp" />
+                android:layout_height="220dp"
+                android:layout_margin="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp">
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/mapView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </androidx.cardview.widget.CardView>
+
 
             <!-- Guias de Ação -->
             <TextView
@@ -62,64 +71,185 @@
                 android:layout_height="wrap_content"
                 android:text="Guias de Ação"
                 android:textColor="#FFFFFF"
-                android:textSize="24sp"
+                android:textSize="38sp"
+                android:textStyle="bold"
                 android:fontFamily="sans-serif-medium"
                 android:padding="16dp" />
 
-            <!-- Layout de cada Guia de Ação -->
+            <!-- Acordeão Guia de Incêndio -->
             <LinearLayout
-                android:id="@+id/guide1"
+                android:id="@+id/accordion_fire"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:background="@drawable/rounded_background"
                 android:orientation="vertical"
+                android:clickable="true"
                 android:padding="16dp">
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/header_fire"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Guia de Incêndio"
-                    android:textSize="20sp"
-                    android:textColor="#FFFFFF"
-                    android:fontFamily="sans-serif-medium" />
+                    android:orientation="horizontal"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="16dp"
+                    android:focusable="true">
 
-                <TextView
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Guia de Incêndio"
+                        android:textSize="20sp"
+                        android:textColor="#FFFFFF"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <ImageView
+                        android:id="@+id/indicator_fire"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/arrow_down_float"
+                        android:contentDescription="Indicator"
+                        app:tint="#FFFFFF" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/content_fire"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Chame Emergência: Ligue para o número 112 e informe a localização."
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:layout_marginTop="8dp" />
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Chame Emergência: Ligue para o número 112 e informe a localização."
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
             </LinearLayout>
 
+            <!-- Acordeão Guia de Evacuação -->
             <LinearLayout
-                android:id="@+id/guide2"
+                android:id="@+id/accordion_evacuation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:background="@drawable/rounded_background"
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/header_evacuation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Guia de Evacuação"
-                    android:textSize="20sp"
-                    android:textColor="#FFFFFF"
-                    android:fontFamily="sans-serif-medium" />
+                    android:orientation="horizontal"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="16dp"
+                    android:focusable="true">
 
-                <TextView
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Guia de Evacuação"
+                        android:textSize="20sp"
+                        android:textColor="#FFFFFF"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <ImageView
+                        android:id="@+id/indicator_evacuation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/arrow_down_float"
+                        android:contentDescription="Indicator"
+                        app:tint="#FFFFFF" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/content_evacuation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Siga as rotas de evacuação designadas e evite áreas perigosas."
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:layout_marginTop="8dp" />
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Siga as rotas de evacuação designadas e evite áreas perigosas."
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Acordeão Guia de Inundação -->
+            <LinearLayout
+                android:id="@+id/accordion_flood"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/rounded_background"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:id="@+id/header_flood"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="16dp"
+                    >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Guia de Inundação"
+                        android:textSize="20sp"
+                        android:textColor="#FFFFFF"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <ImageView
+                        android:id="@+id/indicator_flood"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/arrow_down_float"
+                        android:contentDescription="Indicator"
+                        app:tint="#FFFFFF" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/content_flood"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Evite áreas baixas e mova-se para terrenos mais altos."
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
 
     <!-- Barra de navegação inferior -->
     <LinearLayout
