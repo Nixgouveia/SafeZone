@@ -12,13 +12,17 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
+
 import com.example.tc_projeto.model.WeatherWarning;
 import com.example.tc_projeto.repository.WeatherWarningRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class WeatherWarningWorker extends Worker {
 
     private static final String CHANNEL_ID = "weather_warning_channel";
+    private List<WeatherWarning> lastWarnings = new ArrayList<>();
 
     public WeatherWarningWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -32,34 +36,51 @@ public class WeatherWarningWorker extends Worker {
         WeatherWarningRepository repository = new WeatherWarningRepository();
         repository.getWeatherWarnings().observeForever(warnings -> {
             if (warnings != null && !warnings.isEmpty()) {
-                // Enviar notificação se houver novos avisos
-                sendNotification("Novo aviso do IPMA", "Há novos avisos meteorológicos disponíveis.");
+                // Verificar novos avisos
+                List<WeatherWarning> newWarnings = getNewWarnings(warnings);
+                if (!newWarnings.isEmpty()) {
+                    for (WeatherWarning warning : newWarnings) {
+                        sendNotification("Aviso Meteorológico", formatWarningMessage(warning));
+                    }
+                }
+                // Atualizar a lista de avisos anteriores
+                lastWarnings = warnings;
             }
         });
         return Result.success();
     }
 
+    private List<WeatherWarning> getNewWarnings(List<WeatherWarning> currentWarnings) {
+        List<WeatherWarning> newWarnings = new ArrayList<>();
+        for (WeatherWarning warning : currentWarnings) {
+            if (!lastWarnings.contains(warning)) {
+                newWarnings.add(warning);
+            }
+        }
+        return newWarnings;
+    }
+
+    private String formatWarningMessage(WeatherWarning warning) {
+        return warning.getAwarenessTypeName() + " - Risco " + warning.getAwarenessLevelID() +
+                " em " + warning.getIdAreaAviso() +
+                ". Início: " + warning.getStartTime() +
+                ", Fim: " + warning.getEndTime();
+    }
+
     private void sendNotification(String title, String message) {
         Context context = getApplicationContext();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                /*.setSmallIcon(R.drawable.ic_notification)*/
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        if (ActivityCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        notificationManager.notify(1, builder.build());
+        notificationManager.notify((int) System.currentTimeMillis(), builder.build()); // ID único para cada notificação
     }
 
     private void createNotificationChannel(Context context) {
@@ -75,3 +96,4 @@ public class WeatherWarningWorker extends Worker {
         }
     }
 }
+

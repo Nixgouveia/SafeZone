@@ -118,6 +118,20 @@ public class WarningAdapter extends RecyclerView.Adapter<WarningAdapter.WarningV
         return "Desconhecido";
     }
 
+    public String colorWarning(String color){
+        String colorW = " ";
+        if(color.equals("yellow")){
+            colorW="R.layout.item_warning2";
+        } else if (color.equals("orange")) {
+            colorW="R.layout.item_warning3";
+        }else if (color.equals("red")) {
+            colorW="R.layout.item_warning4";
+        }else if (color.equals("green")) {
+            colorW="R.layout.item_warning";
+        }
+        return colorW;
+    }
+
 
 }
 

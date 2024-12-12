@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
@@ -68,12 +69,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Agendar o WorkManager
-        WorkRequest weatherWarningWorkRequest =
-                new PeriodicWorkRequest.Builder(WeatherWarningWorker.class, 15, TimeUnit.MINUTES)
-                        .build();
-
-        WorkManager.getInstance(this).enqueue(weatherWarningWorkRequest);
+        scheduleWeatherWarningWorker();
 
         debugText = findViewById(R.id.mapTitle);
 
@@ -82,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         adapter = new WarningAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
+
+        String itemSelecionado = getIntent().getStringExtra("itemSelecionado");
 
         viewModel = new ViewModelProvider(this).get(WeatherWarningViewModel.class);
         viewModel.getWarnings().observe(this, warnings -> {
@@ -189,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             if (addresses != null && !addresses.isEmpty()) {
                 Address address = addresses.get(0);
-                currentRegion = address.getAdminArea(); // Use the appropriate method to get the region
+                currentRegion = address.getAdminArea();
                 currentRegion = getDistrictAbbreviation(currentRegion);
                 Log.d("MainActivity", "Região atual: " + currentRegion);
                 /*debugText.setText(currentRegion);*/
@@ -337,4 +335,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
     }
+
+    private void scheduleWeatherWarningWorker() {
+        // Configura o PeriodicWorkRequest para o WeatherWarningWorker
+        WorkManager workManager = WorkManager.getInstance(this);
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
+                WeatherWarningWorker.class, 15, TimeUnit.MINUTES
+        ).build();
+
+        // Enqueue o Worker com uma política para substituir qualquer trabalho anterior
+        workManager.enqueueUniquePeriodicWork(
+                "WeatherWarningWork",
+                ExistingPeriodicWorkPolicy.REPLACE,
+                workRequest
+        );
+    }
+
 }

@@ -10,7 +10,10 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -87,6 +90,35 @@ public class SettingsActivity extends AppCompatActivity {
         notificationsButton.setOnClickListener(v -> startActivity(new Intent(SettingsActivity.this, NotificationsActivity.class)));
 
         settingsButton.setOnClickListener(v -> startActivity(new Intent(SettingsActivity.this, SettingsActivity.class)));
+
+
+        Spinner spinner = findViewById(R.id.spinner);
+
+        // Cria um ArrayAdapter usando o array de strings
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.spinner_items, android.R.layout.simple_spinner_item);
+
+        // Define o layout para o item do Spinner
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Aplica o adaptador ao Spinner
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String itemSelecionado = parent.getItemAtPosition(position).toString();
+
+                Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+                intent.putExtra("itemSelecionado", itemSelecionado);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
     }
 
     private void requestNotificationPermission() {
@@ -133,10 +165,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle("My Notification")
-                .setContentText("Hello World!")
+                .setContentTitle("SafeZone")
+                .setContentText("Ativou as notificações!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         notificationManager.notify(1, builder.build());
     }
+
 }
