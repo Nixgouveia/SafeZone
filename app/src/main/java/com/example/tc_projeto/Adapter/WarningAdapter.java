@@ -32,6 +32,22 @@ public class WarningAdapter extends RecyclerView.Adapter<WarningAdapter.WarningV
         holder.regiao.setText("Para " + setDistrict(warning.getIdAreaAviso()));
         holder.startTime.setText("Início: " + warning.getStartTime());
         holder.endTime.setText("Fim: " + warning.getEndTime());
+
+        String color = warning.getAwarenessLevelID(); // Assuma que getColor() retorna "yellow", "orange", etc.
+        switch (color) {
+            case "yellow":
+                holder.itemView.setBackgroundResource(R.drawable.bg_yellow); // Adicione um drawable para a cor
+                break;
+            case "orange":
+                holder.itemView.setBackgroundResource(R.drawable.bg_orange);
+                break;
+            case "red":
+                holder.itemView.setBackgroundResource(R.drawable.bg_red);
+                break;
+            case "green":
+                holder.itemView.setBackgroundResource(R.drawable.bg_green);
+                break;
+        }
     }
 
     @Override
