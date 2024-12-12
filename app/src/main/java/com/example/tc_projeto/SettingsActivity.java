@@ -92,33 +92,6 @@ public class SettingsActivity extends AppCompatActivity {
         settingsButton.setOnClickListener(v -> startActivity(new Intent(SettingsActivity.this, SettingsActivity.class)));
 
 
-        Spinner spinner = findViewById(R.id.spinner);
-
-        // Cria um ArrayAdapter usando o array de strings
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.spinner_items, android.R.layout.simple_spinner_item);
-
-        // Define o layout para o item do Spinner
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Aplica o adaptador ao Spinner
-        spinner.setAdapter(adapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String itemSelecionado = parent.getItemAtPosition(position).toString();
-
-                Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
-                intent.putExtra("itemSelecionado", itemSelecionado);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
     }
 
     private void requestNotificationPermission() {

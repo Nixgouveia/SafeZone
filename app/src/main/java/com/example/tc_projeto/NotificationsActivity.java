@@ -9,8 +9,12 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,6 +56,7 @@ public class NotificationsActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     private String currentRegion;
     private TextView debugText;
+    private String selectedItem;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,16 +72,17 @@ public class NotificationsActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(WeatherWarningViewModel.class);
         viewModel.getWarnings().observe(this, warnings -> {
-            if (warnings != null && currentRegion != null) {
-                List<WeatherWarning> filteredWarnings = filterWarningsByRegion(warnings, currentRegion);
-                if(filteredWarnings.size()==0){reg.setText("Não exitem riscos para " + setDistrict(currentRegion));
-                }else{reg.setText("Região atual: " + setDistrict(currentRegion));}
+            if (warnings != null && getDistrictAbbreviation(selectedItem) != null) {
+                List<WeatherWarning> filteredWarnings = filterWarningsByRegion(warnings, getDistrictAbbreviation(selectedItem));
+                if(filteredWarnings.size()==0){reg.setText("Não exitem riscos para " + selectedItem );
+                }else{reg.setText("Região atual: " + selectedItem);}
                 adapter.updateWarnings(filteredWarnings);
                 updateMapWithWarnings(filteredWarnings);
             } else {
                 Log.e("MainActivity", "Nenhum aviso disponível ou região não definida");
             }
         });
+
 
 
         // Botões
@@ -116,6 +122,33 @@ public class NotificationsActivity extends AppCompatActivity {
         } else {
             getLastKnownLocation();
         }
+
+        Spinner spinner = findViewById(R.id.spinner);
+
+        // Cria um ArrayAdapter usando o array de strings
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.spinner_items, android.R.layout.simple_spinner_item);
+
+        // Define o layout para o item do Spinner
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Aplica o adaptador ao Spinner
+        spinner.setAdapter(adapter);
+
+        selectedItem = spinner.getSelectedItem().toString();
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = parent.getItemAtPosition(position).toString();
+
+                Toast.makeText(parent.getContext(), "Item selecionado: " + selectedItem, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
     }
 
