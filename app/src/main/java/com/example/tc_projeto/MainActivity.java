@@ -49,7 +49,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
-
+/*Fazer para os 18 distritos as loc atravez de funcao e trocar a descricao do pin do mapa*/
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private static final double CURRENT_LATITUDE = 40.2860;
     private static final double CURRENT_LONGITUDE = -7.5033;
@@ -276,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
     }
-
+/*mudar isso aquiiiiiiiiiiiii*/
     private boolean isWithinRadius(double lat1, double lon1, double lat2, double lon2, double radiusKm) {
         float[] results = new float[1];
         Location.distanceBetween(lat1, lon1, lat2, lon2, results);

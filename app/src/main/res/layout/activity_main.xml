@@ -199,6 +199,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/rounded_background"
                 android:orientation="vertical"
                 android:padding="16dp">
@@ -236,6 +237,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone"
+                    android:layout_marginBottom="10dp"
                     android:padding="16dp">
 
                     <TextView

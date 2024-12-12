@@ -77,7 +77,7 @@ public class NotificationsActivity extends AppCompatActivity {
                 if(filteredWarnings.size()==0){reg.setText("Não exitem riscos para " + selectedItem );
                 }else{reg.setText("Região atual: " + selectedItem);}
                 adapter.updateWarnings(filteredWarnings);
-                updateMapWithWarnings(filteredWarnings);
+//                updateMapWithWarnings(filteredWarnings);
             } else {
                 Log.e("MainActivity", "Nenhum aviso disponível ou região não definida");
             }
@@ -117,11 +117,11 @@ public class NotificationsActivity extends AppCompatActivity {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
-        } else {
-            getLastKnownLocation();
-        }
+//        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+//        } else {
+//            getLastKnownLocation();
+//        }
 
         Spinner spinner = findViewById(R.id.spinner);
 
@@ -152,51 +152,8 @@ public class NotificationsActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getLastKnownLocation();
-            } else {
-                // Permission denied
-            }
-        }
-    }
 
-    private void getLastKnownLocation() { /*MUDAR AQUI DEPOIS*/
-        Location location = new Location("");
-        location.setLatitude(CURRENT_LATITUDE);
-        location.setLongitude(CURRENT_LONGITUDE);
-        determineRegionFromLocation(location);
-    }
 
-    private void determineRegionFromLocation(Location location) {
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        try {
-            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            if (addresses != null && !addresses.isEmpty()) {
-                Address address = addresses.get(0);
-                currentRegion = address.getAdminArea(); // Use the appropriate method to get the region
-                currentRegion = getDistrictAbbreviation(currentRegion);
-                Log.d("MainActivity", "Região atual: " + currentRegion);
-                /*debugText.setText(currentRegion);*/
-
-                // Trigger the observer to update the RecyclerView with the new region
-                viewModel.getWarnings().observe(this, warnings -> {
-                    if (warnings != null && currentRegion != null) {
-                        List<WeatherWarning> filteredWarnings = filterWarningsByRegion(warnings, currentRegion);
-                        adapter.updateWarnings(filteredWarnings);
-                        updateMapWithWarnings(filteredWarnings);
-                    } else {
-                        Log.e("MainActivity", "Nenhum aviso disponível ou região não definida");
-                    }
-                });
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public String getDistrictAbbreviation(String dist) {
         switch (dist) {
@@ -241,37 +198,6 @@ public class NotificationsActivity extends AppCompatActivity {
         }
     }
 
-
-    private void updateMapLocation() {
-        LatLng currentLocation = new LatLng(CURRENT_LATITUDE, CURRENT_LONGITUDE);
-        googleMap.clear();
-        googleMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, zoom));
-    }
-
-    private void updateMapWithWarnings(List<WeatherWarning> warnings) {
-        if (googleMap != null) {
-            googleMap.clear();
-            updateMapLocation();
-            for (WeatherWarning warning : warnings) {
-                double warningLatitude = Double.parseDouble(warning.getLatitude());
-                double warningLongitude = Double.parseDouble(warning.getLongitude());
-                if (isWithinRadius(CURRENT_LATITUDE, CURRENT_LONGITUDE, warningLatitude, warningLongitude, RADIUS_KM)) {
-                    LatLng warningLocation = new LatLng(warningLatitude, warningLongitude);
-                    googleMap.addMarker(new MarkerOptions()
-                            .position(warningLocation)
-                            .title(warning.getAwarenessTypeName())
-                            .snippet("Level: " + warning.getAwarenessLevelID() + "\nRegion: " + warning.getIdAreaAviso()));
-                }
-            }
-        }
-    }
-
-    private boolean isWithinRadius(double lat1, double lon1, double lat2, double lon2, double radiusKm) {
-        float[] results = new float[1];
-        Location.distanceBetween(lat1, lon1, lat2, lon2, results);
-        return results[0] / 1000 <= radiusKm;
-    }
 
     private List<WeatherWarning> filterWarningsByRegion(List<WeatherWarning> warnings, String region) {
         List<WeatherWarning> filteredWarnings = new ArrayList<>();
