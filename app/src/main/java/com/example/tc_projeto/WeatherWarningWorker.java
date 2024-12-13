@@ -1,9 +1,12 @@
 package com.example.tc_projeto;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
@@ -23,6 +26,8 @@ public class WeatherWarningWorker extends Worker {
 
     private static final String CHANNEL_ID = "weather_warning_channel";
     private List<WeatherWarning> lastWarnings = new ArrayList<>();
+    // Recuperar o valor da SharedPreferences
+
 
     public WeatherWarningWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -33,6 +38,7 @@ public class WeatherWarningWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
+
         WeatherWarningRepository repository = new WeatherWarningRepository();
         repository.getWeatherWarnings().observeForever(warnings -> {
             if (warnings != null && !warnings.isEmpty()) {
@@ -52,8 +58,9 @@ public class WeatherWarningWorker extends Worker {
 
     private List<WeatherWarning> getNewWarnings(List<WeatherWarning> currentWarnings) {
         List<WeatherWarning> newWarnings = new ArrayList<>();
+        String tipo="green";
         for (WeatherWarning warning : currentWarnings) {
-            if (!lastWarnings.contains(warning)) {
+            if (!lastWarnings.contains(warning) &&  !tipo.equals(warning.getAwarenessLevelID())) {
                 newWarnings.add(warning);
             }
         }
