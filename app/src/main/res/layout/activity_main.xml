@@ -30,7 +30,18 @@
                 android:fontFamily="sans-serif-medium"
                 android:padding="16dp" />
 
-            <!-- RecyclerView para avisos -->
+
+            <TextView
+                android:id="@+id/textinfo"
+                android:layout_width="282dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_centerHorizontal="true"
+                android:text=" "
+                android:textColor="#FFFFFF"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/warningsRecyclerView"
                 android:layout_width="match_parent"

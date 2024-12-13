@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomSpinnerStyle" parent="Widget.AppCompat.Spinner">
+        <!-- Define a seta -->
+        <item name="android:background">@drawable/spinner_arrow</item>
+        <!-- Cor do texto selecionado -->
+        <item name="android:textColor">@android:color/white</item>
+        <!-- Cor do rótulo -->
+        <item name="android:dropDownSelector">@color/white</item>
+    </style>
+
+
+
+</resources>

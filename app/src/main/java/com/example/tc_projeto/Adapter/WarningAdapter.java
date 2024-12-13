@@ -20,7 +20,7 @@ public class WarningAdapter extends RecyclerView.Adapter<WarningAdapter.WarningV
     @NonNull
     @Override
     public WarningViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_warning2, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_warning, parent, false);
         return new WarningViewHolder(view);
     }
 

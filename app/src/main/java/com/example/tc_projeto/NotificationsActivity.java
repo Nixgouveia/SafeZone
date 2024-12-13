@@ -2,6 +2,7 @@ package com.example.tc_projeto;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -56,13 +57,17 @@ public class NotificationsActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     private String currentRegion;
     private TextView debugText;
-    private String selectedItem;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
 
+
         TextView reg= findViewById(R.id.not_reg);
+
+        // Recuperar o valor salvo na SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        String selectedItem = sharedPreferences.getString("selectedItem", "Nenhum item selecionado");
 
         RecyclerView recyclerView = findViewById(R.id.warningsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -123,32 +128,6 @@ public class NotificationsActivity extends AppCompatActivity {
 //            getLastKnownLocation();
 //        }
 
-        Spinner spinner = findViewById(R.id.spinner);
-
-        // Cria um ArrayAdapter usando o array de strings
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.spinner_items, android.R.layout.simple_spinner_item);
-
-        // Define o layout para o item do Spinner
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Aplica o adaptador ao Spinner
-        spinner.setAdapter(adapter);
-
-        selectedItem = spinner.getSelectedItem().toString();
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItem = parent.getItemAtPosition(position).toString();
-
-                Toast.makeText(parent.getContext(), "Item selecionado: " + selectedItem, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
 
     }
 
@@ -156,47 +135,47 @@ public class NotificationsActivity extends AppCompatActivity {
 
 
     public String getDistrictAbbreviation(String dist) {
-        switch (dist) {
-            case "Aveiro":
-                return "AVR";
-            case "Beja":
-                return "BEJ";
-            case "Braga":
-                return "BRA";
-            case "Bragança":
-                return "BGC";
-            case "Castelo Branco":
-                return "CBR";
-            case "Coimbra":
-                return "CBR";
-            case "Évora":
-                return "EVR";
-            case "Faro":
-                return "FAR";
-            case "Guarda":
-                return "GUA";
-            case "Leiria":
-                return "LEI";
-            case "Lisboa":
-                return "LIS";
-            case "Portalegre":
-                return "PTG";
-            case "Porto":
-                return "PRT";
-            case "Santarém":
-                return "STM";
-            case "Setúbal":
-                return "STB";
-            case "Viana do Castelo":
-                return "VCT";
-            case "Vila Real":
-                return "VRL";
-            case "Viseu":
-                return "VSE";
-            default:
-                return "Invalid District";
+        if (dist.equals("Aveiro")) {
+            return "AVR";
+        } else if (dist.equals("Beja")) {
+            return "BEJ";
+        } else if (dist.equals("Braga")) {
+            return "BRA";
+        } else if (dist.equals("Bragança")) {
+            return "BGC";
+        } else if (dist.equals("Castelo Branco")) {
+            return "CBO";
+        } else if (dist.equals("Coimbra")) {
+            return "CBR";
+        } else if (dist.equals("Évora")) {
+            return "EVR";
+        } else if (dist.equals("Faro")) {
+            return "FAR";
+        } else if (dist.equals("Guarda")) {
+            return "GUA";
+        } else if (dist.equals("Leiria")) {
+            return "LEI";
+        } else if (dist.equals("Lisboa")) {
+            return "LIS";
+        } else if (dist.equals("Portalegre")) {
+            return "PTG";
+        } else if (dist.equals("Porto")) {
+            return "PRT";
+        } else if (dist.equals("Santarém")) {
+            return "STM";
+        } else if (dist.equals("Setúbal")) {
+            return "STB";
+        } else if (dist.equals("Viana do Castelo")) {
+            return "VCT";
+        } else if (dist.equals("Vila Real")) {
+            return "VRL";
+        } else if (dist.equals("Viseu")) {
+            return "VSE";
+        } else {
+            return "Invalid District";
         }
     }
+
 
 
     private List<WeatherWarning> filterWarningsByRegion(List<WeatherWarning> warnings, String region) {
@@ -208,65 +187,6 @@ public class NotificationsActivity extends AppCompatActivity {
             }
         }
         return filteredWarnings;
-    }
-
-    public String setDistrict(String reg) {
-        if (reg.equals("BGC")) {
-            return "Bragança";
-        }
-        if (reg.equals("AVR")) {
-            return "Aveiro";
-        }
-        if (reg.equals("BEJ")) {
-            return "Beja";
-        }
-        if (reg.equals("BRA")) {
-            return "Braga";
-        }
-        if (reg.equals("CBR")) {
-            return "Castelo Branco";
-        }
-        if (reg.equals("COI")) {
-            return "Coimbra";
-        }
-        if (reg.equals("EVR")) {
-            return "Évora";
-        }
-        if (reg.equals("FAR")) {
-            return "Faro";
-        }
-        if (reg.equals("GUA")) {
-            return "Guarda";
-        }
-        if (reg.equals("LEI")) {
-            return "Leiria";
-        }
-        if (reg.equals("LIS")) {
-            return "Lisboa";
-        }
-        if (reg.equals("PTG")) {
-            return "Portalegre";
-        }
-        if (reg.equals("PRT")) {
-            return "Porto";
-        }
-        if (reg.equals("STM")) {
-            return "Santarém";
-        }
-        if (reg.equals("STB")) {
-            return "Setúbal";
-        }
-        if (reg.equals("VCT")) {
-            return "Viana do Castelo";
-        }
-        if (reg.equals("VRL")) {
-            return "Vila Real";
-        }
-        if (reg.equals("VSE")) {
-            return "Viseu";
-        }
-        // Caso o valor de 'reg' não seja encontrado, retorna "Desconhecido"
-        return "Desconhecido";
     }
 
 }

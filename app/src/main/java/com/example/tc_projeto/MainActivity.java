@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        TextView reg= findViewById(R.id.textinfo);
+
         scheduleWeatherWarningWorker();
 
         debugText = findViewById(R.id.mapTitle);
@@ -81,10 +83,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         String itemSelecionado = getIntent().getStringExtra("itemSelecionado");
 
+
         viewModel = new ViewModelProvider(this).get(WeatherWarningViewModel.class);
         viewModel.getWarnings().observe(this, warnings -> {
             if (warnings != null && currentRegion != null) {
                 List<WeatherWarning> filteredWarnings = filterWarningsByRegion(warnings, currentRegion);
+                if(filteredWarnings.size()==0){reg.setText("Não exitem riscos para todo País");
+                }else{}
                 adapter.updateWarnings(filteredWarnings);
                 updateMapWithWarnings(filteredWarnings);
             } else {
@@ -350,5 +355,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 workRequest
         );
     }
+
+
 
 }

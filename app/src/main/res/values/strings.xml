@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TC_Projeto</string>
+    <string name="app_name">SafeZone</string>
     <string name="google_maps_api_key">AIzaSyCyexIc7mxdzwsWb0IWnyvTewD65Iv6qvg</string>
     <string name="Spinner">Meu Spinner</string>
     <string-array name="spinner_items">

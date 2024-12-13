@@ -247,5 +247,30 @@
         android:thumb="@drawable/custom_thumb"
         android:track="@drawable/track_selector" />
 
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView5"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:text="Seleciona o teu distrito: "
+        android:textColor="#FFFFFF"
+        android:textSize="18dp" />
+
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:spinnerMode="dropdown"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/textView8"
+        android:textColor="#FFFFFF"
+        android:layout_gravity="center"
+        android:layout_marginLeft="100dp"
+        />
+
 
 </RelativeLayout>

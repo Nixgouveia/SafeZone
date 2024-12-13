@@ -36,6 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Switch incendio;
     private Switch inundacao;
     private Switch tempestade;
+    private Spinner spinner;
 
     private SharedPreferences sharedPreferences;
 
@@ -90,6 +91,50 @@ public class SettingsActivity extends AppCompatActivity {
         notificationsButton.setOnClickListener(v -> startActivity(new Intent(SettingsActivity.this, NotificationsActivity.class)));
 
         settingsButton.setOnClickListener(v -> startActivity(new Intent(SettingsActivity.this, SettingsActivity.class)));
+
+        spinner = findViewById(R.id.spinner);
+
+        // Criar um ArrayAdapter usando o array de strings definido no arquivo resources
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.spinner_items, android.R.layout.simple_spinner_item);
+
+        // Configurar o layout para o dropdown do Spinner
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Aplicar o adaptador ao Spinner
+        spinner.setAdapter(adapter);
+
+        // Recuperar a seleção salva na SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        String savedItem = sharedPreferences.getString("selectedItem", "");
+
+        // Restaurar o valor salvo no Spinner
+        if (!savedItem.isEmpty()) {
+            int spinnerPosition = adapter.getPosition(savedItem);
+            spinner.setSelection(spinnerPosition);
+        }
+
+        // Configurar o listener para salvar alterações na SharedPreferences
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = parent.getItemAtPosition(position).toString();
+
+                // Salvar o item selecionado na SharedPreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("selectedItem", selectedItem);
+                editor.apply();
+
+                // Exibir um Toast para indicar a seleção
+                Toast.makeText(parent.getContext(), "Item selecionado: " + selectedItem, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Não fazer nada
+            }
+        });
+
 
 
     }
