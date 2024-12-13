@@ -104,11 +104,11 @@ public class SettingsActivity extends AppCompatActivity {
         // Aplicar o adaptador ao Spinner
         spinner.setAdapter(adapter);
 
-        // Recuperar a seleção salva na SharedPreferences
+        // Recuperar a seleção da SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         String savedItem = sharedPreferences.getString("selectedItem", "");
 
-        // Restaurar o valor salvo no Spinner
+        // Restaurar o valor do Spinner
         if (!savedItem.isEmpty()) {
             int spinnerPosition = adapter.getPosition(savedItem);
             spinner.setSelection(spinnerPosition);
@@ -126,7 +126,7 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.apply();
 
                 // Exibir um Toast para indicar a seleção
-                Toast.makeText(parent.getContext(), "Item selecionado: " + selectedItem, Toast.LENGTH_SHORT).show();
+                Toast.makeText(parent.getContext(), "Distrito selecionado: " + selectedItem, Toast.LENGTH_SHORT).show();
             }
 
             @Override

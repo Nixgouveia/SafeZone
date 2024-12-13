@@ -65,7 +65,7 @@ public class NotificationsActivity extends AppCompatActivity {
 
         TextView reg= findViewById(R.id.not_reg);
 
-        // Recuperar o valor salvo na SharedPreferences
+        // Recuperar o valor da SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         String selectedItem = sharedPreferences.getString("selectedItem", "Nenhum item selecionado");
 
