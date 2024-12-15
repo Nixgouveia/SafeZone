@@ -3,6 +3,7 @@ package com.example.tc_projeto;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -49,19 +50,16 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
-/*Fazer para os 18 distritos as loc atravez de funcao e trocar a descricao do pin do mapa*/
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    private static final double CURRENT_LATITUDE = 40.2860;
-    private static final double CURRENT_LONGITUDE = -7.5033;
-    private static final double RADIUS_KM = 1000000.0;
-    private static final int zoom = 12;
+    private static  double CURRENT_LATITUDE = 40.2860;
+    private static  double CURRENT_LONGITUDE = -7.5033;
+    private static final int zoom = 11;
     private MapView mapView;
     private GoogleMap googleMap;
     private WeatherWarningViewModel viewModel;
     private WarningAdapter adapter;
     private FusedLocationProviderClient fusedLocationClient;
     private String currentRegion;
-    private TextView debugText;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -73,13 +71,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         scheduleWeatherWarningWorker();
 
-        debugText = findViewById(R.id.mapTitle);
-
         RecyclerView recyclerView = findViewById(R.id.warningsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         adapter = new WarningAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
+
+        // Recuperar o valor da SharedPreferences
+        SharedPreferences sharedPreferences2 = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        String selectedItem = sharedPreferences2.getString("selectedItem", "Nenhum item selecionado");
+
+        getCurrentLoc(selectedItem);
+
 
         String itemSelecionado = getIntent().getStringExtra("itemSelecionado");
 
@@ -212,6 +215,83 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             e.printStackTrace();
         }
     }
+    // função para obter a localização atual
+    public void getCurrentLoc(String distrito) {
+        switch (distrito) {
+            case "Aveiro":
+                CURRENT_LATITUDE = 40.6405;
+                CURRENT_LONGITUDE = -8.6538;
+                break;
+            case "Beja":
+                CURRENT_LATITUDE = 38.0151;
+                CURRENT_LONGITUDE = -7.8637;
+                break;
+            case "Braga":
+                CURRENT_LATITUDE = 41.5454;
+                CURRENT_LONGITUDE = -8.4265;
+                break;
+            case "Bragança":
+                CURRENT_LATITUDE = 41.8058;
+                CURRENT_LONGITUDE = -6.7572;
+                break;
+            case "Castelo Branco":
+                CURRENT_LATITUDE = 39.8222;
+                CURRENT_LONGITUDE = -7.4909;
+                break;
+            case "Coimbra":
+                CURRENT_LATITUDE = 40.211;
+                CURRENT_LONGITUDE = -8.4294;
+                break;
+            case "Évora":
+                CURRENT_LATITUDE = 38.5711;
+                CURRENT_LONGITUDE = -7.9097;
+                break;
+            case "Faro":
+                CURRENT_LATITUDE = 37.0179;
+                CURRENT_LONGITUDE = -7.9333;
+                break;
+            case "Guarda":
+                CURRENT_LATITUDE = 40.5373;
+                CURRENT_LONGITUDE = -7.2658;
+                break;
+            case "Leiria":
+                CURRENT_LATITUDE = 39.7476;
+                CURRENT_LONGITUDE = -8.807;
+                break;
+            case "Lisboa":
+                CURRENT_LATITUDE = 38.7167;
+                CURRENT_LONGITUDE = -9.1399;
+                break;
+            case "Portalegre":
+                CURRENT_LATITUDE = 39.2974;
+                CURRENT_LONGITUDE = -7.4282;
+                break;
+            case "Porto":
+                CURRENT_LATITUDE = 41.1496;
+                CURRENT_LONGITUDE = -8.611;
+                break;
+            case "Santarém":
+                CURRENT_LATITUDE = 39.2362;
+                CURRENT_LONGITUDE = -8.6859;
+                break;
+            case "Setúbal":
+                CURRENT_LATITUDE = 38.5244;
+                CURRENT_LONGITUDE = -8.894;
+                break;
+            case "Viana do Castelo":
+                CURRENT_LATITUDE = 41.6941;
+                CURRENT_LONGITUDE = -8.8302;
+                break;
+            case "Vila Real":
+                CURRENT_LATITUDE = 41.3006;
+                CURRENT_LONGITUDE = -7.7441;
+                break;
+            case "Viseu":
+                CURRENT_LATITUDE = 40.661;
+                CURRENT_LONGITUDE = -7.9097;
+                break;
+        }
+    }
 
 
     public String getDistrictAbbreviation(String dist) {
@@ -260,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void updateMapLocation() {
         LatLng currentLocation = new LatLng(CURRENT_LATITUDE, CURRENT_LONGITUDE);
         googleMap.clear();
-        googleMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location"));
+        googleMap.addMarker(new MarkerOptions().position(currentLocation).title("Sua Região"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, zoom));
     }
 
@@ -271,22 +351,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             for (WeatherWarning warning : warnings) {
                 double warningLatitude = Double.parseDouble(warning.getLatitude());
                 double warningLongitude = Double.parseDouble(warning.getLongitude());
-                if (isWithinRadius(CURRENT_LATITUDE, CURRENT_LONGITUDE, warningLatitude, warningLongitude, RADIUS_KM)) {
-                    LatLng warningLocation = new LatLng(warningLatitude, warningLongitude);
-                    googleMap.addMarker(new MarkerOptions()
-                            .position(warningLocation)
-                            .title(warning.getAwarenessTypeName())
-                            .snippet("Level: " + warning.getAwarenessLevelID() + "\nRegion: " + warning.getIdAreaAviso()));
-                }
+                LatLng warningLocation = new LatLng(warningLatitude, warningLongitude);
+                googleMap.addMarker(new MarkerOptions()
+                        .position(warningLocation)
+                        .title(warning.getAwarenessTypeName())
+                        .snippet("Level: " + warning.getAwarenessLevelID() + "\nRegion: " + warning.getIdAreaAviso()));
             }
         }
     }
-/*mudar isso aquiiiiiiiiiiiii*/
-    private boolean isWithinRadius(double lat1, double lon1, double lat2, double lon2, double radiusKm) {
-        float[] results = new float[1];
-        Location.distanceBetween(lat1, lon1, lat2, lon2, results);
-        return results[0] / 1000 <= radiusKm;
-    }
+
 
     private List<WeatherWarning> filterWarningsByRegion(List<WeatherWarning> warnings, String region) {
         List<WeatherWarning> filteredWarnings = new ArrayList<>();

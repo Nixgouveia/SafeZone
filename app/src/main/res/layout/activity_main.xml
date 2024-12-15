@@ -89,7 +89,7 @@
 
             <!-- Acordeão Guia de Incêndio -->
             <LinearLayout
-                android:id="@+id/accordion_fire"
+                android:id="@+id/accordion_storm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -114,7 +114,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Guia de Incêndio"
+                        android:text="Guia de Tempestade"
                         android:textSize="20sp"
                         android:textColor="#FFFFFF"
                         android:fontFamily="sans-serif-medium" />
@@ -139,7 +139,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Chame Emergência: Ligue para o número 112 e informe a localização."
+                        android:text="Em caso de tempestade, siga estas instruções simples para a sua segurança: permaneça dentro de casa e feche todas as janelas e portas. Evite usar aparelhos eléctricos e mantenha-se afastado de áreas envidraçadas. Desligue os aparelhos electrónicos da tomada para evitar danos causados por raios. Se estiver ao ar livre, procure abrigo num edifício sólido ou dentro de um veículo. Evite árvores isoladas, estruturas metálicas e áreas abertas. Mantenha-se informado sobre a situação através da rádio, TV ou aplicações de alerta."
                         android:textColor="#FFFFFF"
                         android:textSize="16sp"
                         android:layout_marginTop="8dp" />
@@ -147,6 +147,8 @@
             </LinearLayout>
 
             <!-- Acordeão Guia de Evacuação -->
+
+            <!-- Acordeão Guia de Inundação -->
             <LinearLayout
                 android:id="@+id/accordion_evacuation"
                 android:layout_width="match_parent"
@@ -161,26 +163,26 @@
                     android:id="@+id/header_evacuation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:background="?attr/selectableItemBackground"
-                    android:padding="16dp"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:fontFamily="sans-serif-medium"
                         android:text="Guia de Evacuação"
-                        android:textSize="20sp"
                         android:textColor="#FFFFFF"
-                        android:fontFamily="sans-serif-medium" />
+                        android:textSize="20sp" />
 
                     <ImageView
                         android:id="@+id/indicator_evacuation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@android:drawable/arrow_down_float"
                         android:contentDescription="Indicator"
+                        android:src="@android:drawable/arrow_down_float"
                         app:tint="#FFFFFF" />
                 </LinearLayout>
 
@@ -189,20 +191,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone"
-                    android:padding="16dp">
+                    android:padding="16dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Siga as rotas de evacuação designadas e evite áreas perigosas."
+                        android:layout_marginTop="8dp"
+                        android:text="Em caso de evacuação, siga estas instruções simples para a sua segurança: mantenha a calma e siga as instruções das autoridades. Leve apenas o essencial, como documentos importantes, medicamentos, água e alimentos não perecíveis. Desligue a eletricidade, o gás e a água antes de sair de casa. Utilize as rotas de evacuação designadas e evite atalhos. Se estiver de carro, mantenha o tanque cheio e siga as instruções das autoridades de trânsito. Mantenha-se informado através da rádio, TV ou aplicações de alerta e siga as orientações dos serviços de emergência."
                         android:textColor="#FFFFFF"
-                        android:textSize="16sp"
-                        android:layout_marginTop="8dp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Acordeão Guia de Inundação -->
             <LinearLayout
                 android:id="@+id/accordion_flood"
                 android:layout_width="match_parent"
@@ -254,12 +255,18 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Evite áreas baixas e mova-se para terrenos mais altos."
+                        android:text="Em caso de inundação, siga estas instruções simples para a sua segurança: mantenha-se informado sobre a situação através da rádio, TV ou aplicações de alerta. Se estiver em casa, mova objetos valiosos e perigosos para andares superiores. Desligue a eletricidade, o gás e a água. Evite caminhar ou conduzir em áreas inundadas, pois a água pode esconder perigos e ser mais profunda do que parece. Se for necessário evacuar, siga as instruções das autoridades e utilize rotas de evacuação seguras. Tenha um kit de emergência com água, alimentos não perecíveis, medicamentos e documentos importantes à mão."
                         android:textColor="#FFFFFF"
                         android:textSize="16sp"
                         android:layout_marginTop="8dp" />
                 </LinearLayout>
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
         </LinearLayout>
     </ScrollView>
 
